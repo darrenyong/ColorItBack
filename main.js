@@ -97,50 +97,37 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./map */ "./js/map.js");
-/* harmony import */ var _map__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_map__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nonogram */ "./js/nonogram.js");
+/* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_nonogram__WEBPACK_IMPORTED_MODULE_1__);
 
 
-
-let testGrid = [
-  [0, 0, 0, 0, 1],
-  [1, 1, 0, 1, 1],
-  [0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 0],
-  [1, 1, 0, 1, 0]
-]
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("nonogram");
   const ctx = canvas.getContext("2d")
 
-  let game = new _map__WEBPACK_IMPORTED_MODULE_1___default.a(canvas, ctx);
+  let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1___default.a(canvas, ctx);
 })
 
 /***/ }),
 
-/***/ "./js/map.js":
-/*!*******************!*\
-  !*** ./js/map.js ***!
-  \*******************/
+/***/ "./js/nonogram.js":
+/*!************************!*\
+  !*** ./js/nonogram.js ***!
+  \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-class Map {
+class Nonogram {
   constructor(canvas, ctx) {
-    this.map = [
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    this.testBoard = [
+      [0, 0, 0, 0, 1],
+      [1, 1, 0, 1, 1],
+      [0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 0],
+      [1, 1, 0, 1, 0]
     ];
+
     this.ctx = ctx;
     this.canvas = canvas;
     this.drawObstacles();
@@ -148,23 +135,21 @@ class Map {
 
   draw(pos) {
     this.ctx.beginPath();
-    this.ctx.fillStyle = "#848685";
-    this.ctx.fillRect(pos[0], pos[1], 20, 20);
+    this.ctx.fillStyle = "black";
+    this.ctx.rect(pos[0], pos[1], 20, 20);
     this.ctx.stroke();
-  }  
+  }
 
   drawObstacles() {
-    for (let i = 0; i < this.map.length; i++) {
-      for (let j = 0; j < this.map[0].length; j++) {
-        if (this.map[i][j] != 0) {
-          this.draw([j * 20, i * 20]);
-        }
+    for (let i = 0; i < this.testBoard.length; i++) {
+      for (let j = 0; j < this.testBoard[0].length; j++) {
+        this.draw([j * 10, i * 10]);
       }
     }
   }
 }
 
-module.exports = Map;
+module.exports = Nonogram;
 
 /***/ }),
 
