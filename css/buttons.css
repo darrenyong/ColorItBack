@@ -1,3 +1,14 @@
 .game-container button {
   height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+
+.button-group1 {
+  margin: 0px 40px 0px 0px;
+}
+
+.button-group2 {
+  margin: 0px 0px 0px 40px;
 }
