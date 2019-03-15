@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 let canvas = document.querySelector('canvas');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 800;
+canvas.height = 800;
 console.log(canvas);
 
 let ctx = canvas.getContext('2d');
