@@ -98,7 +98,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nonogram */ "./js/nonogram.js");
-/* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_nonogram__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -106,7 +105,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("nonogram");
   const ctx = canvas.getContext("2d")
 
-  let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1___default.a(canvas, ctx);
+  let testBoard = [
+  [0,1,1,1,1,1,1,1,1,0],
+  [1,0,1,1,0,0,0,0,0,1],
+  [1,0,1,1,0,1,0,1,0,1],
+  [1,0,1,1,0,1,0,0,0,1],
+  [1,0,1,1,0,1,0,1,0,1],
+  [1,0,1,1,0,1,0,1,0,1],
+  [1,0,1,1,0,0,0,1,0,1],
+  [1,0,1,1,0,0,0,1,0,1],
+  [1,0,1,1,0,1,0,0,0,1],
+  [1,0,1,1,0,1,0,1,0,1],
+  [1,0,1,1,0,0,0,0,0,1],
+  [0,1,1,1,1,1,1,1,1,0]
+]
+
+  let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"](testBoard, ctx);
+  window.Nonogram = _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"];
 })
 
 /***/ }),
@@ -115,41 +130,65 @@ document.addEventListener("DOMContentLoaded", () => {
 /*!************************!*\
   !*** ./js/nonogram.js ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 class Nonogram {
-  constructor(canvas, ctx) {
-    this.testBoard = [
-      [0, 0, 0, 0, 1],
-      [1, 1, 0, 1, 1],
-      [0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 0],
-      [1, 1, 0, 1, 0]
-    ];
-
+  constructor(grid, ctx) {
     this.ctx = ctx;
-    this.canvas = canvas;
-    this.drawObstacles();
+    this.answerGrid = grid;
+    this.guessGrid = this.buildUserGuess();
+    this.render();
   }
 
-  draw(pos) {
-    this.ctx.beginPath();
-    this.ctx.fillStyle = "black";
-    this.ctx.rect(pos[0], pos[1], 20, 20);
-    this.ctx.stroke();
+  // This builds a grid of the original
+  buildUserGuess() {
+    let grid = [];
+    
+    for (let i = 0; i < this.answerGrid[0].length; i++) {
+      let line = []
+      for (let j = 0; j < this.answerGrid.length; j++) {
+        line.push(0);
+      }
+      grid.push(line)
+    }
+    return grid;
   }
 
-  drawObstacles() {
-    for (let i = 0; i < this.testBoard.length; i++) {
-      for (let j = 0; j < this.testBoard[0].length; j++) {
-        this.draw([j * 10, i * 10]);
+  render() {
+    for (let i = 0; i < this.guessGrid.length; i++) {
+      for (let j = 0; j < this.guessGrid[0].length; j++) {
+        if (this.answerGrid[j][i] === 0) {
+          this.ctx.rect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+          this.ctx.stroke();
+        } else if (this.answerGrid[j][i] === 1) {
+          this.fillStyle = "black";
+          this.ctx.fillRect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+        }
       }
     }
   }
+
+  gameWon() {
+    for (let i = 0; i < this.answerGrid.length; i++) {
+      for (let j = 0; j < this.answerGrid[0].length; j++) {
+        let guessGrid = this.guessGrid[i][j];
+        let answerGrid = this.answerGrid[i][j];
+        if (answerGrid === 1 && guessGrid != answerGrid || guessGrid === 1 && answerGrid != 1) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  
+
 }
 
-module.exports = Nonogram;
+/* harmony default export */ __webpack_exports__["default"] = (Nonogram);
 
 /***/ }),
 
