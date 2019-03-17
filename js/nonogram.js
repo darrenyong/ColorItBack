@@ -1,3 +1,5 @@
+// This file handles all the game logic
+
 class Nonogram {
   constructor(grid, ctx) {
     this.ctx = ctx;
@@ -6,13 +8,13 @@ class Nonogram {
     this.render();
   }
 
-  // This builds a grid of the original
+  // This builds a grid of the original that keeps track of the user's guess
   buildUserGuess() {
     let grid = [];
     
-    for (let i = 0; i < this.answerGrid[0].length; i++) {
+    for (let i = 0; i < this.answerGrid.length; i++) {
       let line = []
-      for (let j = 0; j < this.answerGrid.length; j++) {
+      for (let j = 0; j < this.answerGrid[0].length; j++) {
         line.push(0);
       }
       grid.push(line)
@@ -23,12 +25,12 @@ class Nonogram {
   render() {
     for (let i = 0; i < this.guessGrid.length; i++) {
       for (let j = 0; j < this.guessGrid[0].length; j++) {
-        if (this.answerGrid[j][i] === 0) {
-          this.ctx.rect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+        if (this.guessGrid[i][j] === 0) {
+          this.ctx.rect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
           this.ctx.stroke();
-        } else if (this.answerGrid[j][i] === 1) {
+        } else if (this.guessGrid[i][j] === 1) {
           this.fillStyle = "black";
-          this.ctx.fillRect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+          this.ctx.fillRect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
         }
       }
     }
@@ -36,7 +38,7 @@ class Nonogram {
 
   gameWon() {
     for (let i = 0; i < this.answerGrid.length; i++) {
-      for (let j = 0; j < this.answerGrid[0].length; j++) {
+      for (let j = 0; j < this.answerGrid.length; j++) {
         let guessGrid = this.guessGrid[i][j];
         let answerGrid = this.answerGrid[i][j];
         if (answerGrid === 1 && guessGrid != answerGrid || guessGrid === 1 && answerGrid != 1) {
@@ -47,7 +49,7 @@ class Nonogram {
     return true;
   }
 
-  
+
 
 }
 
