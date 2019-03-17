@@ -98,6 +98,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nonogram */ "./js/nonogram.js");
+/* harmony import */ var _mouse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mouse */ "./js/mouse.js");
+
 
 
 
@@ -121,8 +123,44 @@ document.addEventListener("DOMContentLoaded", () => {
 ]
 
   let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"](testBoard, ctx);
+  game.render();
+
+  document.addEventListener("mousedown", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseDown"]);
+  document.addEventListener("mousemove", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseDrag"]);
+  document.addEventListener("mouseup", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseUp"]);
+
   window.Nonogram = _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"];
 })
+
+/***/ }),
+
+/***/ "./js/mouse.js":
+/*!*********************!*\
+  !*** ./js/mouse.js ***!
+  \*********************/
+/*! exports provided: mouseDown, mouseDrag, mouseUp */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseDown", function() { return mouseDown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseDrag", function() { return mouseDrag; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseUp", function() { return mouseUp; });
+// This file handles all the mouse logic
+let mousePress = false;
+
+const mouseDown = (e) => {
+  mousePress = true;
+  console.log(`x: ${e.x}, y: ${e.y}`)
+}
+
+const mouseDrag = (e) => {
+  if (mousePress) console.log(`x: ${e.x}, y: ${e.y}`)
+  }
+
+const mouseUp = (e) => {
+  mousePress = false;
+}
 
 /***/ }),
 
@@ -135,6 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+// This file handles all the game logic
+
 class Nonogram {
   constructor(grid, ctx) {
     this.ctx = ctx;
@@ -143,13 +183,13 @@ class Nonogram {
     this.render();
   }
 
-  // This builds a grid of the original
+  // This builds a grid of the original that keeps track of the user's guess
   buildUserGuess() {
     let grid = [];
     
-    for (let i = 0; i < this.answerGrid[0].length; i++) {
+    for (let i = 0; i < this.answerGrid.length; i++) {
       let line = []
-      for (let j = 0; j < this.answerGrid.length; j++) {
+      for (let j = 0; j < this.answerGrid[0].length; j++) {
         line.push(0);
       }
       grid.push(line)
@@ -160,12 +200,12 @@ class Nonogram {
   render() {
     for (let i = 0; i < this.guessGrid.length; i++) {
       for (let j = 0; j < this.guessGrid[0].length; j++) {
-        if (this.answerGrid[j][i] === 0) {
-          this.ctx.rect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+        if (this.guessGrid[i][j] === 0) {
+          this.ctx.rect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
           this.ctx.stroke();
-        } else if (this.answerGrid[j][i] === 1) {
+        } else if (this.guessGrid[i][j] === 1) {
           this.fillStyle = "black";
-          this.ctx.fillRect((i * 20) + 0.5, (j * 10) + 0.5, 20, 10)
+          this.ctx.fillRect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
         }
       }
     }
@@ -173,7 +213,7 @@ class Nonogram {
 
   gameWon() {
     for (let i = 0; i < this.answerGrid.length; i++) {
-      for (let j = 0; j < this.answerGrid[0].length; j++) {
+      for (let j = 0; j < this.answerGrid.length; j++) {
         let guessGrid = this.guessGrid[i][j];
         let answerGrid = this.answerGrid[i][j];
         if (answerGrid === 1 && guessGrid != answerGrid || guessGrid === 1 && answerGrid != 1) {
@@ -184,7 +224,7 @@ class Nonogram {
     return true;
   }
 
-  
+
 
 }
 
