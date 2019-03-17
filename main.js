@@ -86,6 +86,92 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./js/difficulty.js":
+/*!**************************!*\
+  !*** ./js/difficulty.js ***!
+  \**************************/
+/*! exports provided: random */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
+let possiblePuzzle = [
+  // Easy Puzzles
+  [
+    [0, 0, 0, 0, 1],
+    [1, 1, 0, 1, 1],
+    [0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 0],
+    [1, 1, 0, 1, 0]
+  ],
+  [
+    [0, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 1]
+  ],
+  [
+    [0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 0],
+    [0, 1, 1, 1, 0],
+    [0, 1, 0, 1, 0]
+  ],
+  [
+    [0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0],
+    [1, 0, 1, 1, 0, 1],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 0, 0, 1, 1],
+    [0, 1, 1, 1, 1, 0]
+  ],
+  [
+    [0, 0, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1],
+    [0, 0, 1, 1, 0, 0],
+    [0, 0, 1, 1, 0, 0]
+  ],
+  // Medium Puzzles
+  [
+    [0, 1, 1, 0, 0, 1, 1, 0],
+    [1, 1, 1, 0, 0, 1, 1, 1],
+    [1, 1, 1, 0, 0, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0]
+  ],
+  [
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0]
+  ]
+]
+
+
+const random = () => {
+  // Generate random puzzle
+  let puzzleNum = Math.floor(Math.random() * possiblePuzzle.length)
+  return possiblePuzzle[puzzleNum]
+}
+
+
+/***/ }),
+
 /***/ "./js/index.js":
 /*!*********************!*\
   !*** ./js/index.js ***!
@@ -98,69 +184,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _nonogram__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nonogram */ "./js/nonogram.js");
-/* harmony import */ var _mouse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mouse */ "./js/mouse.js");
+/* harmony import */ var _difficulty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./difficulty */ "./js/difficulty.js");
 
 
 
+// import * as MouseUtil from './mouse';
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("nonogram");
   const ctx = canvas.getContext("2d")
 
-  let testBoard = [
-  [0,1,1,1,1,1,1,1,1,0],
-  [1,0,1,1,0,0,0,0,0,1],
-  [1,0,1,1,0,1,0,1,0,1],
-  [1,0,1,1,0,1,0,0,0,1],
-  [1,0,1,1,0,1,0,1,0,1],
-  [1,0,1,1,0,1,0,1,0,1],
-  [1,0,1,1,0,0,0,1,0,1],
-  [1,0,1,1,0,0,0,1,0,1],
-  [1,0,1,1,0,1,0,0,0,1],
-  [1,0,1,1,0,1,0,1,0,1],
-  [1,0,1,1,0,0,0,0,0,1],
-  [0,1,1,1,1,1,1,1,1,0]
-]
+  let testBoard = Object(_difficulty__WEBPACK_IMPORTED_MODULE_2__["random"])();
+
+//   let testBoard = [
+//   [0,1,1,1,1,1,1,1,1,0],
+//   [1,0,1,1,0,0,0,0,0,1],
+//   [1,0,1,1,0,1,0,1,0,1],
+//   [1,0,1,1,0,1,0,0,0,1],
+//   [1,0,1,1,0,1,0,1,0,1],
+//   [1,0,1,1,0,1,0,1,0,1],
+//   [1,0,1,1,0,0,0,1,0,1],
+//   [1,0,1,1,0,0,0,1,0,1],
+//   [1,0,1,1,0,1,0,0,0,1],
+//   [1,0,1,1,0,1,0,1,0,1],
+//   [1,0,1,1,0,0,0,0,0,1],
+//   [0,1,1,1,1,1,1,1,1,0]
+// ]
 
   let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"](testBoard, ctx);
   game.render();
 
-  document.addEventListener("mousedown", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseDown"]);
-  document.addEventListener("mousemove", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseDrag"]);
-  document.addEventListener("mouseup", _mouse__WEBPACK_IMPORTED_MODULE_2__["mouseUp"]);
+  // document.addEventListener("mousedown", MouseUtil.mouseDown);
+  // document.addEventListener("mousemove", MouseUtil.mouseDrag);
+  // document.addEventListener("mouseup", MouseUtil.mouseUp);
 
   window.Nonogram = _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"];
 })
-
-/***/ }),
-
-/***/ "./js/mouse.js":
-/*!*********************!*\
-  !*** ./js/mouse.js ***!
-  \*********************/
-/*! exports provided: mouseDown, mouseDrag, mouseUp */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseDown", function() { return mouseDown; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseDrag", function() { return mouseDrag; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouseUp", function() { return mouseUp; });
-// This file handles all the mouse logic
-let mousePress = false;
-
-const mouseDown = (e) => {
-  mousePress = true;
-  console.log(`x: ${e.x}, y: ${e.y}`)
-}
-
-const mouseDrag = (e) => {
-  if (mousePress) console.log(`x: ${e.x}, y: ${e.y}`)
-  }
-
-const mouseUp = (e) => {
-  mousePress = false;
-}
 
 /***/ }),
 
@@ -174,7 +233,6 @@ const mouseUp = (e) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 // This file handles all the game logic
-
 class Nonogram {
   constructor(grid, ctx) {
     this.ctx = ctx;
@@ -211,7 +269,7 @@ class Nonogram {
     }
   }
 
-  gameWon() {
+  isGameWon() {
     for (let i = 0; i < this.answerGrid.length; i++) {
       for (let j = 0; j < this.answerGrid.length; j++) {
         let guessGrid = this.guessGrid[i][j];
@@ -223,8 +281,6 @@ class Nonogram {
     }
     return true;
   }
-
-
 
 }
 
