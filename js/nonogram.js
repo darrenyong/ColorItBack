@@ -140,6 +140,15 @@ class Nonogram {
     }
   }
 
+  drawLine(startX, startY, endX, endY) {
+    this.ctx.strokeStyle = "black";
+    this.ctx.lineWidth = 1;
+    this.ctx.beginPath();
+    this.ctx.moveTo(startX, startY);
+    this.ctx.lineTo(endX, endY);
+    this.ctx.stroke();
+  }
+
   render() {
     for (let i = 0; i < this.guessGrid.length; i++) {
       for (let j = 0; j < this.guessGrid[0].length; j++) {
