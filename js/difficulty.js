@@ -65,7 +65,7 @@ let possiblePuzzle = [
 ]
 
 
-export const random = () => {
+export const randomBoard = () => {
   // Generate random puzzle
   let puzzleNum = Math.floor(Math.random() * possiblePuzzle.length)
   return possiblePuzzle[puzzleNum]
