@@ -90,12 +90,12 @@
 /*!**************************!*\
   !*** ./js/difficulty.js ***!
   \**************************/
-/*! exports provided: random */
+/*! exports provided: randomBoard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomBoard", function() { return randomBoard; });
 let possiblePuzzle = [
   // Easy Puzzles
   [
@@ -163,7 +163,7 @@ let possiblePuzzle = [
 ]
 
 
-const random = () => {
+const randomBoard = () => {
   // Generate random puzzle
   let puzzleNum = Math.floor(Math.random() * possiblePuzzle.length)
   return possiblePuzzle[puzzleNum]
@@ -194,22 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("nonogram");
   const ctx = canvas.getContext("2d")
 
-  let testBoard = Object(_difficulty__WEBPACK_IMPORTED_MODULE_2__["random"])();
-
-//   let testBoard = [
-//   [0,1,1,1,1,1,1,1,1,0],
-//   [1,0,1,1,0,0,0,0,0,1],
-//   [1,0,1,1,0,1,0,1,0,1],
-//   [1,0,1,1,0,1,0,0,0,1],
-//   [1,0,1,1,0,1,0,1,0,1],
-//   [1,0,1,1,0,1,0,1,0,1],
-//   [1,0,1,1,0,0,0,1,0,1],
-//   [1,0,1,1,0,0,0,1,0,1],
-//   [1,0,1,1,0,1,0,0,0,1],
-//   [1,0,1,1,0,1,0,1,0,1],
-//   [1,0,1,1,0,0,0,0,0,1],
-//   [0,1,1,1,1,1,1,1,1,0]
-// ]
+  let testBoard = Object(_difficulty__WEBPACK_IMPORTED_MODULE_2__["randomBoard"])();
 
   let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"](testBoard, ctx);
   game.render();
@@ -232,12 +217,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./square */ "./js/square.js");
+
+
+let CELL_SIZE = 20;
+
 // This file handles all the game logic
 class Nonogram {
   constructor(grid, ctx) {
     this.ctx = ctx;
     this.answerGrid = grid;
     this.guessGrid = this.buildUserGuess();
+    this.row = this.rowHints();
+    this.columns = this.columnHints();
     this.render();
   }
 
@@ -255,6 +247,80 @@ class Nonogram {
     return grid;
   }
 
+  isGameWon() {
+    for (let i = 0; i < this.answerGrid.length; i++) {
+      for (let j = 0; j < this.answerGrid.length; j++) {
+        let guessGrid = this.guessGrid[i][j];
+        let answerGrid = this.answerGrid[i][j];
+        if (answerGrid === 1 && guessGrid != answerGrid || guessGrid === 1 && answerGrid != 1) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  rowHints() {
+    let rowHint = [];
+
+    for (let i = 0; i < this.answerGrid.length; i++) {
+      let hints = [];
+      let hint = 0;
+      for (let j = 0; j < this.answerGrid[i].length; j++) {
+        if (this.answerGrid[i][j] === 1) {
+          hint++;
+          if (j === this.answerGrid[i].length - 1) {
+            hints.push(hint);
+          }
+        } else if (hint != 0) {
+          hints.push(hint);
+          hint = 0;
+        }
+      }
+      rowHint.push(hints);
+    }
+
+    return rowHint;
+  }
+
+  tranpose(grid) {
+    let transposeGrid = [];
+
+    for (let i = 0; i < grid[0].length; i++) {
+      let newRow = [];
+      for (let j = 0; j < grid.length; j++) {
+        newRow.push(grid[i][j]);
+      }
+      transposeGrid.push(newRow);
+    }
+
+    return transposeGrid;
+  }
+
+  columnHints() {
+    let columnHint = [];
+    let transposeGrid = this.transpose(this.answerGrid);
+
+    for (let i = 0; i < transposeGrid.length; i++) {
+      let hints = [];
+      let hint = 0;
+      for (let j = 0; j < transposeGrid[i].length; j++) {
+        if (transposeGrid[i][j] === 1) {
+          hint++;
+          if (j === transposeGrid[i].length - 1) {
+            hints.push(hint);
+          }
+        } else if (hint != 0) {
+          hints.push(hint);
+          hint = 0;
+        }
+      }
+      columnHint.push(hints);
+    }
+
+    return columnHint;
+  }
+
   render() {
     for (let i = 0; i < this.guessGrid.length; i++) {
       for (let j = 0; j < this.guessGrid[0].length; j++) {
@@ -269,22 +335,37 @@ class Nonogram {
     }
   }
 
-  isGameWon() {
-    for (let i = 0; i < this.answerGrid.length; i++) {
-      for (let j = 0; j < this.answerGrid.length; j++) {
-        let guessGrid = this.guessGrid[i][j];
-        let answerGrid = this.answerGrid[i][j];
-        if (answerGrid === 1 && guessGrid != answerGrid || guessGrid === 1 && answerGrid != 1) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
 
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Nonogram);
+
+/***/ }),
+
+/***/ "./js/square.js":
+/*!**********************!*\
+  !*** ./js/square.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const CELL_SIZE = 20;
+
+class Square {
+  constructor(x, y) {
+    this.startX = x * CELL_SIZE;
+    this.startY = y * CELL_SIZE;
+  }
+
+  draw(ctx) {
+    
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Square);
 
 /***/ }),
 
