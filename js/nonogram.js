@@ -150,17 +150,53 @@ class Nonogram {
   }
 
   render() {
+    // for (let i = 0; i < this.guessGrid.length; i++) {
+    //   for (let j = 0; j < this.guessGrid[0].length; j++) {
+    //     if (this.guessGrid[i][j] === 0) {
+    //       this.ctx.rect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
+    //       this.ctx.stroke();
+    //     } else if (this.guessGrid[i][j] === 1) {
+    //       this.fillStyle = "black";
+    //       this.ctx.fillRect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
+    //     }
+    //   }
+    // }
+    this.ctx.fillStyle = "#d9d9d9";
+    this.ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
+
+    this.ctx.fillStyle = "#000000";
     for (let i = 0; i < this.guessGrid.length; i++) {
-      for (let j = 0; j < this.guessGrid[0].length; j++) {
-        if (this.guessGrid[i][j] === 0) {
-          this.ctx.rect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
-          this.ctx.stroke();
-        } else if (this.guessGrid[i][j] === 1) {
-          this.fillStyle = "black";
-          this.ctx.fillRect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
+      for (let j = 0; j < this.guessGrid[i].length; j++) {
+        if (this.guessGrid[i][j] === 1) {
+          this.ctx.fillStyle = "#000000";
+          this.ctx.fillRect(CELL_SIZE * j, CELL_SIZE * i, CELL_SIZE, CELL_SIZE);
+        } else if (!this.isGameWon()) {
+          if (this.guessGrid[i][j] === 2) {
+            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1));
+            this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1));
+          }
         }
       }
     }
+
+    if (!this.isGameWon()) {
+      for (let i = 0; i < this.guessGrid.length; i++) {
+        this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE);
+        if (i % 5 === 0) {
+          this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE);
+        }
+      }
+
+      for (let i = 0; i < this.guessGrid[0].length; i++){
+        this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight);
+        if (i % 5 === 0) {
+          this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight);
+        }
+      }
+    }
+
+    this.ctx.font = "13px Helvetica";
+    this.ctx.fillStyle = "white";
   }
 
 
