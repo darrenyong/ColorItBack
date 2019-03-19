@@ -6,10 +6,15 @@ let CELL_SIZE = 20;
 class Nonogram {
   constructor(grid, ctx) {
     this.ctx = ctx;
+
     this.answerGrid = grid;
     this.guessGrid = this.buildUserGuess();
     this.row = this.rowHints();
     this.columns = this.columnHints();
+
+    this.screenWidth = this.answerGrid[0].length * CELL_SIZE;
+    this.screenHeight = this.answerGrid.length * CELL_SIZE;
+
     this.render();
   }
 
@@ -63,7 +68,7 @@ class Nonogram {
     return rowHint;
   }
 
-  tranpose(grid) {
+  transpose(grid) {
     let transposeGrid = [];
 
     for (let i = 0; i < grid[0].length; i++) {
@@ -99,6 +104,40 @@ class Nonogram {
     }
 
     return columnHint;
+  }
+
+  click(x, y) {
+    targetCol = Math.floor(x/CELL_SIZE);
+    targetRow = Math.floor(x/CELL_SIZE);
+
+    if (this.isValidLocation(x, y) && !this.alreadyClicked(row, col)) {
+      switch(this.clickAction) {
+        case "ERASE":
+          this.guessGrid[targetRow][targetCol] = 0;
+          break;
+        case "PAINT":
+          this.guessGrid[targetRow][targetCol] = 1;
+          break;
+        case "BLOCK":
+          this.guessGrid[targetRow][targetCol] = 2;
+          break;
+      }
+    }
+  }
+  
+  isValidLocation(x, y) {
+    return (x >= 0 && x < this.screenWidth && y >=0 && y < this.screenHeight);
+  }
+
+  alreadyClicked(row, col) {
+    switch(this.clickAction) {
+      case "ERASE":
+        return this.guessGrid[row][col] === 0;
+      case "PAINT":
+        return this.guessGrid[row][col] === 1;
+      case "BLOCK":
+        return this.guessGrid[row][col] === 2;
+    }
   }
 
   render() {
