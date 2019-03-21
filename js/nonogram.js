@@ -1,5 +1,3 @@
-import Square from './square';
-
 let CELL_SIZE = 30;
 
 // This file handles all the game logic
@@ -161,8 +159,8 @@ class Nonogram {
     }
   }
 
-  drawLine(startX, startY, endX, endY) {
-    this.ctx.strokeStyle = "black";
+  drawLine(startX, startY, endX, endY, color) {
+    this.ctx.strokeStyle = color;
     this.ctx.lineWidth = 2;
     this.ctx.beginPath();
     this.ctx.moveTo(startX, startY);
@@ -193,8 +191,8 @@ class Nonogram {
           this.ctx.fillRect(CELL_SIZE * j, CELL_SIZE * i, CELL_SIZE, CELL_SIZE);
         } else if (!this.isGameWon()) {
           if (this.guessGrid[i][j] === 2) {
-            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1));
-            this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1));
+            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1), "black");
+            this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1), "black");
           }
         }
       }
@@ -202,16 +200,16 @@ class Nonogram {
 
     if (!this.isGameWon()) {
       for (let i = 0; i < this.guessGrid.length; i++) {
-        this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE);
+        this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "black");
         if (i % 5 === 0) {
-          this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE);
+          this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "red");
         }
       }
 
       for (let i = 0; i < this.guessGrid[0].length; i++){
-        this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight);
+        this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "black");
         if (i % 5 === 0) {
-          this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight);
+          this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "red");
         }
       }
     }
