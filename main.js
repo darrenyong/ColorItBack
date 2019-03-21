@@ -269,6 +269,7 @@ class Nonogram {
     return grid;
   }
 
+  // Checks if game is won
   isGameWon() {
     for (let i = 0; i < this.answerGrid.length; i++) {
       for (let j = 0; j < this.answerGrid.length; j++) {
@@ -282,6 +283,7 @@ class Nonogram {
     return true;
   }
 
+  // Generates an array of numbers for each rows' hint
   rowHints() {
     let rowHint = [];
 
@@ -305,6 +307,7 @@ class Nonogram {
     return rowHint;
   }
 
+  // Generates an array of numbers for each columns' hint
   transpose(grid) {
     let transposeGrid = [];
 
@@ -442,6 +445,7 @@ class Nonogram {
       }
     }
 
+
     this.ctx.font = "15px Helvetica";
     this.ctx.fillStyle = "black";
 
@@ -472,9 +476,11 @@ class Nonogram {
       }
     }
 
-    // if (this.isGameWon()) {
-    //   alert("You won!");
-    // }
+    let alerted = localStorage.getItem("alerted") || "";
+    if (this.isGameWon() && alerted != "yes") {
+      alert("You won!");
+      localStorage.setItem("alerted", "yes");
+    }
   }
 
 
