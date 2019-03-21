@@ -17,20 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
   let mouseDown = (e) => {
     mousePressed = true;
     game.setClickAction(e.x, e.y);
+    game.render();
   }
 
   let mouseDrag = (e) => {
     if (mousePressed) game.click(e.x, e.y);
+    game.render();
   }
 
   let mouseUp = (e) => {
     mousePressed = false;
     game.click(e.x, e.y);
+    game.render()
   }
+
 
   document.addEventListener("mousedown", mouseDown);
   document.addEventListener("mousemove", mouseDrag);
   document.addEventListener("mouseup", mouseUp);
 
-  window.Nonogram = Nonogram;
+  window.Nonogram = Nonogram; 
 })
