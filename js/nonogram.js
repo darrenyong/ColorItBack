@@ -180,7 +180,7 @@ class Nonogram {
           this.ctx.fillRect(CELL_SIZE * j, CELL_SIZE * i, CELL_SIZE, CELL_SIZE);
         } else if (!this.isGameWon()) {
           if (this.guessGrid[i][j] === 2) {
-            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1), "#72a3d4");
+            this.drawLine(CELL_SIZE * j, CELL_SIZE * i, CELL_SIZE * (j + 1), CELL_SIZE * (i + 1), "#72a3d4");
             this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1), "#72a3d4");
           }
         }
