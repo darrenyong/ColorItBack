@@ -1,6 +1,6 @@
 import Square from './square';
 
-let CELL_SIZE = 20;
+let CELL_SIZE = 30;
 
 // This file handles all the game logic
 class Nonogram {
@@ -74,7 +74,7 @@ class Nonogram {
     for (let i = 0; i < grid[0].length; i++) {
       let newRow = [];
       for (let j = 0; j < grid.length; j++) {
-        newRow.push(grid[i][j]);
+        newRow.push(grid[j][i]);
       }
       transposeGrid.push(newRow);
     }
@@ -106,11 +106,32 @@ class Nonogram {
     return columnHint;
   }
 
-  click(x, y) {
-    targetCol = Math.floor(x/CELL_SIZE);
-    targetRow = Math.floor(x/CELL_SIZE);
+  setClickAction(x, y) {
+    switch(this.tileAt(x, y)) {
+      case 0:
+        this.clickAction = "PAINT";
+        break;
+      case 1:
+        this.clickAction = "BLOCK";
+        break;
+      case 2:
+        this.clickAction = "ERASE";
+        break;
+    }
+  }
 
-    if (this.isValidLocation(x, y) && !this.alreadyClicked(row, col)) {
+  tileAt(x, y) {
+    let col = Math.floor(x/CELL_SIZE);
+    let row = Math.floor(y/CELL_SIZE);
+
+    return this.guessGrid[row][col];
+  }
+
+  click(x, y) {
+    let targetCol = Math.floor(x/CELL_SIZE);
+    let targetRow = Math.floor(y/CELL_SIZE);
+
+    if (this.isValidLocation(x, y) && !this.alreadyClicked(targetRow, targetCol)) {
       switch(this.clickAction) {
         case "ERASE":
           this.guessGrid[targetRow][targetCol] = 0;
@@ -142,7 +163,7 @@ class Nonogram {
 
   drawLine(startX, startY, endX, endY) {
     this.ctx.strokeStyle = "black";
-    this.ctx.lineWidth = 1;
+    this.ctx.lineWidth = 2;
     this.ctx.beginPath();
     this.ctx.moveTo(startX, startY);
     this.ctx.lineTo(endX, endY);
@@ -195,8 +216,35 @@ class Nonogram {
       }
     }
 
-    this.ctx.font = "13px Helvetica";
-    this.ctx.fillStyle = "white";
+    this.ctx.font = "15px Helvetica";
+    this.ctx.fillStyle = "black";
+
+    // Row hints
+    for (let i = 0; i < this.row.length; i++) {
+      let hint = "  ";
+      for (let j = 0; j < this.row[i].length; j++) {
+        hint += this.row[i][j] + "  ";
+      }
+      if (hint === "  ") {
+        hint = " 0 ";
+      }
+      this.ctx.fillText(hint, this.screenWidth + 10, CELL_SIZE * (i + 1) - 7);
+    }
+
+
+    // Column hints
+    let hint = "";
+    this.ctx.fillText(hint, 0, this.screenHeight + 10);
+
+    for (let i = 0; i < this.columns.length; i++) {
+      for (let j = 0; j < this.columns[i].length; j++) {
+        hint = this.columns[i][j];
+        if (hint === "") {
+          hint = 0;
+        }
+        this.ctx.fillText(hint, CELL_SIZE * i + 9, this.screenHeight + 15 * (j + 1) + 7);
+      }
+    }
   }
 
 
