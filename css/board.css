@@ -1,7 +1,7 @@
 .game-container {
   /* background: #73a1d7; */
 }
-
+/* 
 .game-container h1{
   text-align: center;
   font-family: Helvetica;
@@ -15,9 +15,8 @@
   justify-content: center;
   align-items: center;
 }
+*/
 
 #nonogram {
   border: 1px solid black;
-  height: 800px;
-  width: 800px;
 }
