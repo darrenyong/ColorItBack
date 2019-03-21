@@ -169,17 +169,6 @@ class Nonogram {
   }
 
   render() {
-    // for (let i = 0; i < this.guessGrid.length; i++) {
-    //   for (let j = 0; j < this.guessGrid[0].length; j++) {
-    //     if (this.guessGrid[i][j] === 0) {
-    //       this.ctx.rect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
-    //       this.ctx.stroke();
-    //     } else if (this.guessGrid[i][j] === 1) {
-    //       this.fillStyle = "black";
-    //       this.ctx.fillRect((j * 20) + 0.5, (i * 10) + 0.5, 20, 10)
-    //     }
-    //   }
-    // }
     this.ctx.fillStyle = "#d9d9d9";
     this.ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
 
@@ -191,8 +180,8 @@ class Nonogram {
           this.ctx.fillRect(CELL_SIZE * j, CELL_SIZE * i, CELL_SIZE, CELL_SIZE);
         } else if (!this.isGameWon()) {
           if (this.guessGrid[i][j] === 2) {
-            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1), "black");
-            this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1), "black");
+            this.drawLine(20 * j, 20 * i, 20 *  (j + 1), CELL_SIZE * (i + 1), "#72a3d4");
+            this.drawLine(CELL_SIZE * (j + 1), CELL_SIZE * i, CELL_SIZE * j, CELL_SIZE * (i + 1), "#72a3d4");
           }
         }
       }
@@ -200,16 +189,16 @@ class Nonogram {
 
     if (!this.isGameWon()) {
       for (let i = 0; i < this.guessGrid.length; i++) {
-        this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "black");
-        if (i % 5 === 0) {
-          this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "red");
+        this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "#72a3d4");
+        if (i !== 0 && i % 5 === 0) {
+          this.drawLine(0, i * CELL_SIZE, this.screenWidth, i * CELL_SIZE, "#fe4642");
         }
       }
 
       for (let i = 0; i < this.guessGrid[0].length; i++){
-        this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "black");
-        if (i % 5 === 0) {
-          this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "red");
+        this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "#72a3d4");
+        if (i !== 0 && i % 5 === 0) {
+          this.drawLine(i * CELL_SIZE, 0, i * CELL_SIZE, this.screenHeight, "#fe4642");
         }
       }
     }
@@ -243,6 +232,10 @@ class Nonogram {
         this.ctx.fillText(hint, CELL_SIZE * i + 9, this.screenHeight + 15 * (j + 1) + 7);
       }
     }
+
+    // if (this.isGameWon()) {
+    //   alert("You won!");
+    // }
   }
 
 
