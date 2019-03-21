@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mousePressed = false;
   let testBoard = randomBoard();
+  localStorage.setItem("alerted", "");
   let game = new Nonogram(testBoard, ctx);
 
   let mouseDown = (e) => {

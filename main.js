@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mousePressed = false;
   let testBoard = Object(_difficulty__WEBPACK_IMPORTED_MODULE_2__["randomBoard"])();
+  localStorage.setItem("alerted", "");
   let game = new _nonogram__WEBPACK_IMPORTED_MODULE_1__["default"](testBoard, ctx);
 
   let mouseDown = (e) => {
