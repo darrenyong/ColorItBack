@@ -36,6 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("mousedown", mouseDown);
   document.addEventListener("mousemove", mouseDrag);
   document.addEventListener("mouseup", mouseUp);
+  
+  setInterval(() => {
+    if (game.isGameWon()) {
+      document.removeEventListener("mousedown", mouseDown);
+      document.removeEventListener("mousemove", mouseDrag);
+      document.removeEventListener("mouseup", mouseUp);
+    }
+  }, 100);
 
   window.Nonogram = Nonogram; 
 })
