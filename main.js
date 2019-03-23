@@ -249,6 +249,7 @@ class Nonogram {
     this.guessGrid = this.buildUserGuess();
     this.row = this.rowHints();
     this.columns = this.columnHints();
+    this.loaded = false;
 
     this.screenWidth = this.answerGrid[0].length * CELL_SIZE;
     this.screenHeight = this.answerGrid.length * CELL_SIZE;
@@ -447,33 +448,36 @@ class Nonogram {
     }
 
 
-    this.ctx.font = "15px Helvetica";
-    this.ctx.fillStyle = "black";
-
-    // Row hints
-    for (let i = 0; i < this.row.length; i++) {
-      let hint = "  ";
-      for (let j = 0; j < this.row[i].length; j++) {
-        hint += this.row[i][j] + "  ";
-      }
-      if (hint === "  ") {
-        hint = " 0 ";
-      }
-      this.ctx.fillText(hint, this.screenWidth + 10, CELL_SIZE * (i + 1) - 7);
-    }
-
-
-    // Column hints
-    let hint = "";
-    this.ctx.fillText(hint, 0, this.screenHeight + 10);
-
-    for (let i = 0; i < this.columns.length; i++) {
-      for (let j = 0; j < this.columns[i].length; j++) {
-        hint = this.columns[i][j];
-        if (hint === "") {
-          hint = 0;
+    if (!this.loaded) {
+      this.loaded = true;
+      this.ctx.font = "15px Helvetica";
+      this.ctx.fillStyle = "black";
+  
+      // Row hints
+      for (let i = 0; i < this.row.length; i++) {
+        let hint = "  ";
+        for (let j = 0; j < this.row[i].length; j++) {
+          hint += this.row[i][j] + "  ";
         }
-        this.ctx.fillText(hint, CELL_SIZE * i + 9, this.screenHeight + 15 * (j + 1) + 7);
+        if (hint === "  ") {
+          hint = " 0 ";
+        }
+        this.ctx.fillText(hint, this.screenWidth + 10, CELL_SIZE * (i + 1) - 7);
+      }
+  
+  
+      // Column hints
+      let hint = "";
+      this.ctx.fillText(hint, 0, this.screenHeight + 10);
+  
+      for (let i = 0; i < this.columns.length; i++) {
+        for (let j = 0; j < this.columns[i].length; j++) {
+          hint = this.columns[i][j];
+          if (hint === "") {
+            hint = 0;
+          }
+          this.ctx.fillText(hint, CELL_SIZE * i + 9, this.screenHeight + 15 * (j + 1) + 7);
+        }
       }
     }
 
